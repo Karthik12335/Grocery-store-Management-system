@@ -1,0 +1,32 @@
+{%   extends 'base.html' %}
+
+{%  block 'main' %}
+
+<div class="col-md-12">
+    <h2 class="mt-5 bg-danger text-white text-center">Login Form</h2>
+    </div>
+    
+    <div class="col-md-8 mt-5">
+
+        <form method="POST" action="">
+            {% csrf_token %}
+            <table>
+                {% for x in lform %}
+                <tr>
+                    <th>{{x.label_tag}}</th>
+                    <td>{{x}}</td>
+                    <td>{{x.errors}}</td>
+                </tr>
+                {%  endfor  %}
+                <tr>
+                    <td><button  class="btn btn-primary" type="submit">Login</button> </td>
+                </tr>
+
+            </table>
+
+        </form>
+
+</div>
+    
+        
+{%  endblock 'main' %}

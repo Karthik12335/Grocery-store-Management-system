@@ -1,0 +1,184 @@
+{%   extends 'base.html' %}
+
+{%  block 'main' %}
+
+<div class="col-md-12 mt-3">
+  <h3> <span class="text-danger text-center " >Product Admin Panel</span>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <span ><a href="logout"><button class="btn btn-danger text-white">Logout</button> </a> </span>
+  </h3>
+  <hr>
+
+
+</div>
+
+<div class="col-md-3 mt-5">
+    <h4>Enter Product Details</h4>
+    <hr>
+
+    <form method="POST" action="" >
+        {% csrf_token %}
+    <div class="mb-3">
+        <label for="pname" class="form-label">Product Name</label>
+        <input type="text" class="form-control" id="pname" name="pname" placeholder="Product Name">
+    </div>
+
+    <div class="mb-3">
+        <label for="pdesc" class="form-label">Product Description</label>
+        <textarea class="form-control" id="pdesc" name="pdesc" rows="3"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label for="pprice" class="form-label">Product Price</label>
+        <input type="number" class="form-control" id="pprice" name="pprice" placeholder="Enter Price">
+    </div>
+
+    <div class="mb-3">
+        <select class="form-select" name="cat" aria-label="Default select example">
+            <option selected>Select Category</option>
+            <option value="E">Electronics</option>
+            <option value="G">Grocery</option>
+            <option value="C">Clothes</option>
+          </select>
+
+    </div>
+
+    <div class="mb-3">
+        <button  class="btn btn-primary" type="submit">Add Product</button>
+
+
+    </div>
+
+</form>
+
+
+    
+
+
+
+
+
+</div>
+
+    <div class="col-md-8 mt-5">
+        <h4>Product Details</h4>
+    <hr>
+
+    
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Category
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="/pdashboard">All</a></li>
+        <li><a class="dropdown-item" href="/filter/elec">Electronics</a></li>
+        <li><a class="dropdown-item" href="/filter/groc">Grocery</a></li>
+        <li><a class="dropdown-item" href="/filter/cloth">Clothes</a></li>
+      </ul>
+    
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Price Range
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="/pdashboard">All</a></li>
+        <li><a class="dropdown-item" href="/pfilter/>10000">Above 10000</a></li>
+        <li><a class="dropdown-item" href="/pfilter/<10000">Below 10000</a></li>    
+      </ul>
+    
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Sort by Price
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="/pdashboard">All</a></li>
+        <li><a class="dropdown-item" href="/sort/htol">High to Low</a></li>
+        <li><a class="dropdown-item" href="/sort/ltoh">Low to High</a></li>    
+      </ul>
+      
+
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Product Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Category</th>
+                <th scope="col">Price(Rs.)</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+    
+            <tbody>
+            {%  for x in data %}
+              <tr>
+                <td>{{x.name}}</td>
+                <td>{{x.pdesc}}</td>
+                {% if x.cat == 'E' %}
+                <td>Electronics</td> 
+                {% elif x.cat == 'G' %}
+                <td>Grocery</td>
+                {% else %}
+                <td>Clothes</td>
+                {% endif %}
+                <td>{{x.price}}</td>
+                <td><a href="edit/{{x.id}}"><button class='btn btn-warning'>Edit</button> </a></td>
+                <td><a href="delete/{{x.id}}"><button class='btn btn-danger'>Delete</button> </a></td>
+                
+              </tr>
+
+            {% endfor %}
+            </tbody>
+    
+          </table>
+    
+    </div>
+
+    <div class="col-md-12">
+      <h4>Filter Between Price Range</h4>
+      <hr>
+        <form method="POST" action="prange">
+          {% csrf_token %}
+          <table>
+            <tr>
+              <td>From Rs:</td>
+              <td><input type="number" name="from" class="form-control" required ></td>
+              <td>To Rs:</td>
+              <td><input type="number" name="to" class="form-control"  required></td>
+              <td><input type="submit" name="send" value="Find" class="btn btn-primary"></td>
+            </tr>
+
+          </table>
+
+        </form>
+
+
+    </div>
+
+    <div class="col-md-3 mt-5">
+      <h4>Filter By Category</h4>
+      <hr>
+      <p><a class="btn btn-secondary" href="/pdashboard" >All</a> </p>
+      <p><a class="btn btn-secondary" href="/filter/elec">Electronics</a></p>
+      <p><a class="btn btn-secondary" href="/filter/groc">Grocery</a></p>
+      <p><a class="btn btn-secondary" href="/filter/cloth">Clothes</a></p>
+
+
+      </div>
+
+      <div class="col-md-3 mt-5">
+        <h4>Filter By Price</h4>
+        <hr>
+        <p><a class="btn btn-secondary" href="/pdashboard" >All</a> </p>
+        <p><a class="btn btn-secondary" href="/pfilter/>10000">Above 10000</a></p>
+        <p><a class="btn btn-secondary" href="/pfilter/<10000">Below 10000</a></p>
+        </div>
+
+        <div class="col-md-3 mt-5">
+          <h4>Sort By Price</h4>
+          <hr>
+          <p><a class="btn btn-secondary" href="/pdashboard" >All</a> </p>
+          <p><a class="btn btn-secondary" href="/sort/htol">High to Low</a></p>
+          <p><a class="btn btn-secondary" href="/sort/ltoh">Low to High</a></p>
+          </div>
+
+          
+
+{%  endblock 'main' %}
