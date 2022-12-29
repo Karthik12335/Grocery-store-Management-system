@@ -10,32 +10,7 @@ from django.contrib.auth import authenticate,login,logout
 
 
 # Create your views here.
-def index(request):
-    #return HttpResponse("<b>Hello from Index</b>")
-    return redirect('/index')
 
-
-
-
-
-def username(request,username):
-    return HttpResponse("User_name is: "+username)
-
-
-def home(request):
-    content={}
-    #content['x'] = 'Itvedant Eclass'
-    #content['y'] = '100'
-    #content['x'] = 100
-    #content['y'] = 160
-    content['data'] = [10,20,30,40,50,60]
-    return render(request,'index.html',content)
-
-def contact(request):
-    return render(request,'contact.html')
-
-def product(request):
-    return render(request,'product.html')
 
 
 
